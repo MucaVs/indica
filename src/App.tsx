@@ -18,26 +18,34 @@ import {
   X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { services } from './data/services'
-import type { Service } from './data/services'
+import type { Service } from './types/service'
 import { averageRating, filterServices, formatPrice } from './lib/services'
 import { Rating } from './components/Rating'
 import { ServiceDetails } from './components/ServiceDetails'
 import './App.css'
 
-const categories: { name: string; icon: LucideIcon; caption: string }[] = [
-  { name: 'Todos', icon: LayoutGrid, caption: 'Um pouco de tudo' },
-  { name: 'Reparos', icon: Wrench, caption: 'Sua casa em dia' },
-  { name: 'Aulas', icon: BookOpen, caption: 'Aprenda algo novo' },
-  { name: 'Limpeza', icon: Sparkles, caption: 'Mais tempo pra você' },
-  { name: 'Pets', icon: PawPrint, caption: 'Cuidado e carinho' },
-]
+const categoryIcons: Record<string, LucideIcon> = {
+  Reparos: Wrench,
+  Aulas: BookOpen,
+  Limpeza: Sparkles,
+  Pets: PawPrint,
+}
 
-function App() {
+function App({ services = [] }: { services?: Service[] }) {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('Todos')
   const [selectedService, setSelectedService] = useState<Service | null>(null)
   const visibleServices = filterServices(services, query, category)
+  const categories = [
+    { name: 'Todos', icon: LayoutGrid, caption: 'Explore seu bairro' },
+    ...Array.from(new Set(services.map((service) => service.category))).map(
+      (name) => ({
+        name,
+        icon: categoryIcons[name] ?? Wrench,
+        caption: 'Ver serviços',
+      }),
+    ),
+  ]
 
   function clearFilters() {
     setQuery('')
@@ -162,9 +170,6 @@ function App() {
                 Encontre seu próximo <span>vizinho de confiança</span>
               </h2>
             </div>
-            <span className="local-label">
-              <MapPin size={15} /> São Paulo, SP
-            </span>
           </div>
           <div className="results-bar">
             <p role="status" aria-live="polite">
@@ -237,15 +242,21 @@ function App() {
               <span>
                 <SearchX size={30} />
               </span>
-              <h3>Nenhum serviço por aqui ainda</h3>
+              <h3>
+                {services.length === 0
+                  ? 'Nenhum serviço disponível'
+                  : 'Nenhum serviço por aqui ainda'}
+              </h3>
               <p>
-                Tente outro termo, como “eletricista” ou “inglês”,
-                <br />
-                ou explore todas as categorias.
+                {services.length === 0
+                  ? 'Os serviços aparecerão aqui assim que estiverem disponíveis.'
+                  : 'Tente outro termo ou explore todas as categorias.'}
               </p>
-              <button className="search-button" onClick={clearFilters}>
-                Ver todos os serviços <ArrowUpRight size={17} />
-              </button>
+              {services.length > 0 && (
+                <button className="search-button" onClick={clearFilters}>
+                  Ver todos os serviços <ArrowUpRight size={17} />
+                </button>
+              )}
             </div>
           )}
         </section>
@@ -267,7 +278,7 @@ function App() {
           indica<span className="brand-dot">.</span>
         </a>
         <p>Feito para conectar vizinhos.</p>
-        <span>Projeto de estudo · Dados de demonstração</span>
+        <span>Projeto de estudo</span>
       </footer>
       {selectedService && (
         <ServiceDetails

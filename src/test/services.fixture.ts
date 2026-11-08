@@ -1,28 +1,6 @@
-export type Category = 'Reparos' | 'Aulas' | 'Limpeza' | 'Pets'
+import type { Service } from '../types/service'
 
-export interface Review {
-  id: number
-  author: string
-  rating: number
-  comment: string
-  date: string
-}
-
-export interface Service {
-  id: number
-  title: string
-  category: Category
-  professional: string
-  neighborhood: string
-  description: string
-  price: number
-  unit: string
-  image: string
-  keywords: string[]
-  reviews: Review[]
-}
-
-// Dados fictícios para estudar a interface antes de conectar o Supabase.
+// Exemplos exclusivos dos testes; não são carregados pelo aplicativo.
 export const services: Service[] = [
   {
     id: 1,

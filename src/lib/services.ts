@@ -1,4 +1,4 @@
-import type { Review, Service } from '../data/services'
+import type { Review, Service } from '../types/service'
 
 export function normalizeText(value: string): string {
   return value

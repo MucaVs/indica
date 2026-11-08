@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { MapPin, X, MessageCircle } from 'lucide-react'
-import type { Service } from '../data/services'
+import type { Service } from '../types/service'
 import {
   averageRating,
   formatDate,
@@ -68,7 +68,7 @@ export function ServiceDetails({
         <h2 id="detail-title">{service.title}</h2>
         <p className="professional">com {service.professional}</p>
         <p className="location">
-          <MapPin size={14} /> {service.neighborhood}, São Paulo
+          <MapPin size={14} /> {service.neighborhood}
         </p>
         <Rating value={average} count={service.reviews.length} />
         <div className="detail-price">
@@ -118,9 +118,6 @@ export function ServiceDetails({
             </article>
           ))}
         </section>
-        <p className="demo-note">
-          Serviço e avaliações fictícios, apenas para demonstração.
-        </p>
       </div>
     </dialog>
   )

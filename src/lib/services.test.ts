@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { services } from '../data/services'
+import { services } from '../test/services.fixture'
 import {
   averageRating,
   filterServices,

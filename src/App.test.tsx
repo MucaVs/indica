@@ -2,11 +2,25 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import App from './App'
+import { services } from './test/services.fixture'
 
 describe('experiência do vizinho', () => {
+  it('não exibe exemplos locais nem inventa localização quando não recebe dados', () => {
+    render(<App />)
+    expect(screen.getByText('Nenhum serviço disponível')).toBeVisible()
+    expect(
+      screen.queryByRole('button', { name: /Ver detalhes de/ }),
+    ).not.toBeInTheDocument()
+    expect(screen.queryByText('Carlos Oliveira')).not.toBeInTheDocument()
+    expect(screen.queryByText('São Paulo, SP')).not.toBeInTheDocument()
+    expect(screen.queryByText('Dados de demonstração')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: /Reparos/ }),
+    ).not.toBeInTheDocument()
+  })
   it('mostra serviços e permite pesquisar inglês sem acento', async () => {
     const user = userEvent.setup()
-    render(<App />)
+    render(<App services={services} />)
     expect(
       screen.getAllByRole('button', { name: /Ver detalhes de/ }),
     ).toHaveLength(6)
@@ -27,7 +41,7 @@ describe('experiência do vizinho', () => {
 
   it('filtra por categoria e recupera a busca sem resultados', async () => {
     const user = userEvent.setup()
-    render(<App />)
+    render(<App services={services} />)
     await user.click(screen.getByRole('button', { name: /Reparos/ }))
     expect(
       screen.getAllByRole('button', { name: /Ver detalhes de/ }),
@@ -45,7 +59,7 @@ describe('experiência do vizinho', () => {
 
   it('abre preço, média real e comentários de cada vizinho; fecha pelo botão', async () => {
     const user = userEvent.setup()
-    render(<App />)
+    render(<App services={services} />)
     await user.click(
       screen.getByRole('button', {
         name: 'Ver detalhes de Eletricista residencial',
@@ -74,7 +88,7 @@ describe('experiência do vizinho', () => {
 
   it('fecha os detalhes ao receber o cancelamento nativo (Escape)', async () => {
     const user = userEvent.setup()
-    render(<App />)
+    render(<App services={services} />)
     await user.click(
       screen.getByRole('button', {
         name: 'Ver detalhes de Aulas de inglês para você',
