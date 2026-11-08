@@ -48,10 +48,24 @@ export type Database = {
             referencedColumns: ['id']
           },
           {
+            foreignKeyName: 'avaliacoes_autor_id_fkey'
+            columns: ['autor_id']
+            isOneToOne: false
+            referencedRelation: 'v_servicos_destaque'
+            referencedColumns: ['autor_id']
+          },
+          {
             foreignKeyName: 'avaliacoes_servico_id_fkey'
             columns: ['servico_id']
             isOneToOne: false
             referencedRelation: 'servicos'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'avaliacoes_servico_id_fkey'
+            columns: ['servico_id']
+            isOneToOne: false
+            referencedRelation: 'v_servicos_destaque'
             referencedColumns: ['id']
           },
         ]
@@ -102,11 +116,25 @@ export type Database = {
             referencedColumns: ['id']
           },
           {
+            foreignKeyName: 'favoritos_servico_id_fkey'
+            columns: ['servico_id']
+            isOneToOne: false
+            referencedRelation: 'v_servicos_destaque'
+            referencedColumns: ['id']
+          },
+          {
             foreignKeyName: 'favoritos_usuario_id_fkey'
             columns: ['usuario_id']
             isOneToOne: false
             referencedRelation: 'usuarios'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'favoritos_usuario_id_fkey'
+            columns: ['usuario_id']
+            isOneToOne: false
+            referencedRelation: 'v_servicos_destaque'
+            referencedColumns: ['autor_id']
           },
         ]
       }
@@ -192,7 +220,38 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      v_servicos_destaque: {
+        Row: {
+          autor_avatar_url: string | null
+          autor_bio: string | null
+          autor_id: number | null
+          autor_nome: string | null
+          categoria_id: number | null
+          categoria_nome: string | null
+          created_at: string | null
+          criado_por: number | null
+          descricao: string | null
+          eu_mesmo: boolean | null
+          foto_url: string | null
+          id: number | null
+          media_notas: number | null
+          preco_detalhe: string | null
+          preco_estimado: number | null
+          terceiro: boolean | null
+          titulo: string | null
+          total_avaliacoes: number | null
+          whatsapp: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'servicos_categoria_fkey'
+            columns: ['categoria_id']
+            isOneToOne: false
+            referencedRelation: 'categorias'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never

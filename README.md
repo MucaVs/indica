@@ -41,7 +41,9 @@ O aplicativo consulta o Supabase e não carrega mais um catálogo local de demon
 
 O projeto conectado é `bgsxpwnopgsyidabfzzt`. A carga de estudo já foi aplicada: **3 novos perfis, 6 categorias no total, 12 serviços, 24 avaliações e 9 favoritos**. O perfil que já existia foi preservado. Os três novos perfis são fictícios e não possuem contas de login no Auth. Não foi adicionada coluna de idade ou bairro.
 
-O catálogo permite apenas leitura pelo navegador. Os nomes e IDs dos perfis de estudo são públicos; o perfil real existente e os favoritos permanecem privados. As avaliações exibem média calculada dos registros recebidos. Os filtros são locais e não alteram o banco.
+O catálogo permite apenas leitura pelo navegador. ID, nome, bio e avatar dos perfis de estudo são públicos; o perfil real existente e os favoritos permanecem privados. As avaliações exibem média calculada dos registros recebidos. Os filtros são locais e não alteram o banco.
+
+A view `public.v_servicos_destaque` reúne os serviços com categoria, dados públicos do autor, `media_notas` e `total_avaliacoes`. Serviços sem avaliações têm média e total iguais a zero. A definição está em [supabase/v_servicos_destaque.sql](supabase/v_servicos_destaque.sql); o frontend continua usando suas consultas atuais.
 
 Para acompanhar as inserções na aula, veja [supabase/README.md](supabase/README.md) e [supabase/seed.sql](supabase/seed.sql). O script pode ser repetido sem duplicar os registros. Fotos são ilustrativas e suas URLs fazem parte dos registros do banco.
 

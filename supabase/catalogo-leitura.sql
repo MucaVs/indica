@@ -11,7 +11,7 @@ on public.usuarios, public.categorias, public.servicos, public.avaliacoes, publi
 from anon, authenticated;
 
 grant select on public.categorias, public.servicos, public.avaliacoes to anon, authenticated;
-grant select (id, nome_completo) on public.usuarios to anon, authenticated;
+grant select (id, nome_completo, bio, avatar_url) on public.usuarios to anon, authenticated;
 
 do $policies$
 begin
@@ -31,7 +31,7 @@ begin
 end;
 $policies$;
 
--- Só os nomes e IDs dos perfis de estudo são públicos; o perfil real já existente
+-- Só os campos públicos dos perfis de estudo são acessíveis; o perfil real já existente
 -- permanece protegido. Favoritos continuam sem acesso pelo navegador.
 
 -- Funções de gatilho são internas: não precisam ser executáveis pela API.
