@@ -13,11 +13,11 @@ export interface Service {
   title: string
   category: Category
   professional: string
-  neighborhood: string
+  neighborhood?: string
   description: string
-  price: number
-  unit: string
-  image: string
-  keywords: string[]
+  price: number | null
+  priceDetail: string
+  image: string | null
+  keywords?: string[]
   reviews: Review[]
 }

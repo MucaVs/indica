@@ -7,6 +7,7 @@ import {
   ChevronRight,
   House,
   LayoutGrid,
+  LoaderCircle,
   MapPin,
   PawPrint,
   Search,
@@ -22,6 +23,8 @@ import type { Service } from './types/service'
 import { averageRating, filterServices, formatPrice } from './lib/services'
 import { Rating } from './components/Rating'
 import { ServiceDetails } from './components/ServiceDetails'
+import { ServiceImage } from './components/ServiceImage'
+import type { CatalogStatus } from './components/Catalog'
 import './App.css'
 
 const categoryIcons: Record<string, LucideIcon> = {
@@ -31,7 +34,15 @@ const categoryIcons: Record<string, LucideIcon> = {
   Pets: PawPrint,
 }
 
-function App({ services = [] }: { services?: Service[] }) {
+function App({
+  services = [],
+  status = 'ready',
+  onRetry,
+}: {
+  services?: Service[]
+  status?: CatalogStatus
+  onRetry?: () => void
+}) {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('Todos')
   const [selectedService, setSelectedService] = useState<Service | null>(null)
@@ -173,12 +184,20 @@ function App({ services = [] }: { services?: Service[] }) {
           </div>
           <div className="results-bar">
             <p role="status" aria-live="polite">
-              <strong>{visibleServices.length}</strong>{' '}
-              {visibleServices.length === 1
-                ? 'serviço encontrado'
-                : 'serviços encontrados'}
-              {category !== 'Todos' && ` em ${category}`}
-              {query.trim() && <> para “{query.trim()}”</>}
+              {status === 'ready' ? (
+                <>
+                  <strong>{visibleServices.length}</strong>{' '}
+                  {visibleServices.length === 1
+                    ? 'serviço encontrado'
+                    : 'serviços encontrados'}
+                  {category !== 'Todos' && ` em ${category}`}
+                  {query.trim() && <> para “{query.trim()}”</>}
+                </>
+              ) : status === 'loading' ? (
+                'Carregando serviços…'
+              ) : (
+                'Catálogo temporariamente indisponível'
+              )}
             </p>
             {query || category !== 'Todos' ? (
               <button className="text-button" onClick={clearFilters}>
@@ -190,7 +209,36 @@ function App({ services = [] }: { services?: Service[] }) {
               </span>
             )}
           </div>
-          {visibleServices.length > 0 ? (
+          {status === 'loading' ? (
+            <div className="empty-state" role="status">
+              <span>
+                <LoaderCircle className="loading-spinner" size={30} />
+              </span>
+              <h3>Buscando os serviços do bairro</h3>
+              <p>Só um instante…</p>
+            </div>
+          ) : status === 'error' || status === 'unconfigured' ? (
+            <div className="empty-state" role="alert">
+              <span>
+                <SearchX size={30} />
+              </span>
+              <h3>
+                {status === 'unconfigured'
+                  ? 'Catálogo em preparação'
+                  : 'Não foi possível carregar os serviços'}
+              </h3>
+              <p>
+                {status === 'unconfigured'
+                  ? 'Os serviços ainda não estão disponíveis. Volte em instantes.'
+                  : 'Verifique sua conexão e tente novamente.'}
+              </p>
+              {onRetry && (
+                <button className="search-button" onClick={onRetry}>
+                  Tentar novamente
+                </button>
+              )}
+            </div>
+          ) : visibleServices.length > 0 ? (
             <div className="services-grid">
               {visibleServices.map((service) => (
                 <button
@@ -200,7 +248,7 @@ function App({ services = [] }: { services?: Service[] }) {
                   aria-label={`Ver detalhes de ${service.title}`}
                 >
                   <div className="card-image">
-                    <img src={service.image} alt="" loading="lazy" />
+                    <ServiceImage src={service.image} />
                     <span className="image-category">{service.category}</span>
                     <span className="card-open" aria-hidden="true">
                       <ArrowUpRight size={19} />
@@ -214,19 +262,25 @@ function App({ services = [] }: { services?: Service[] }) {
                       {service.professional}
                     </p>
                     <h3>{service.title}</h3>
-                    <p className="location">
-                      <MapPin size={13} /> {service.neighborhood}
-                    </p>
+                    {service.neighborhood && (
+                      <p className="location">
+                        <MapPin size={13} /> {service.neighborhood}
+                      </p>
+                    )}
                     <Rating
                       value={averageRating(service.reviews)}
                       count={service.reviews.length}
                     />
                     <div className="card-bottom">
                       <div>
-                        <span className="price-label">A partir de</span>
+                        <span className="price-label">
+                          {service.price === null ? 'Valor' : 'A partir de'}
+                        </span>
                         <p>
                           <strong>{formatPrice(service.price)}</strong>
-                          <span> / {service.unit}</span>
+                          {service.priceDetail && (
+                            <span>{service.priceDetail}</span>
+                          )}
                         </p>
                       </div>
                       <span className="details-label">

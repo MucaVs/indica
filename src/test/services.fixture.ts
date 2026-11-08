@@ -11,7 +11,7 @@ export const services: Service[] = [
     description:
       'Instalação de tomadas, troca de chuveiros e pequenos reparos elétricos. Atendimento cuidadoso para deixar sua casa funcionando direitinho. O valor inicial é por visita; materiais e serviços adicionais são combinados à parte.',
     price: 120,
-    unit: 'visita',
+    priceDetail: 'visita',
     image: '/images/eletricista.jpg',
     keywords: ['eletricidade', 'elétrica', 'eletricista', 'tomada', 'chuveiro'],
     reviews: [
@@ -50,7 +50,7 @@ export const services: Service[] = [
     description:
       'Inglês do básico à conversação, com aulas adaptadas ao seu ritmo e aos seus objetivos. Encontros individuais online ou presenciais no bairro. Cada aula tem duração de uma hora.',
     price: 80,
-    unit: 'hora',
+    priceDetail: 'hora',
     image: '/images/ingles.jpg',
     keywords: ['inglês', 'professora', 'professor', 'idiomas', 'conversação'],
     reviews: [
@@ -81,7 +81,7 @@ export const services: Service[] = [
     description:
       'Limpeza residencial com atenção aos detalhes, da cozinha aos quartos. Diária de até oito horas para apartamentos de até 70 m². Produtos de limpeza fornecidos pelo contratante.',
     price: 180,
-    unit: 'diária',
+    priceDetail: 'diária',
     image: '/images/limpeza.jpg',
     keywords: ['diarista', 'faxina', 'limpeza', 'doméstica'],
     reviews: [
@@ -112,7 +112,7 @@ export const services: Service[] = [
     description:
       'Pintura de paredes e pequenos retoques com proteção dos móveis e do piso. O valor anunciado é a diária de mão de obra. Tintas e demais materiais são combinados conforme o ambiente.',
     price: 250,
-    unit: 'diária',
+    priceDetail: 'diária',
     image: '/images/pintura.jpg',
     keywords: ['pintor', 'pintura', 'parede', 'reforma'],
     reviews: [
@@ -142,7 +142,7 @@ export const services: Service[] = [
     description:
       'Passeios individuais de 45 minutos com seu cachorro, respeitando o ritmo e as necessidades dele. Envio notícias do passeio e cuido de cada pet com atenção e carinho.',
     price: 40,
-    unit: 'passeio',
+    priceDetail: 'passeio',
     image: '/images/pets.jpg',
     keywords: ['cachorro', 'cão', 'dog walker', 'passeador', 'animais'],
     reviews: [
@@ -173,7 +173,7 @@ export const services: Service[] = [
     description:
       'Conserto de torneiras, troca de sifões e solução de pequenos vazamentos. O preço inicial cobre a visita e a avaliação. Peças e reparos são orçados antes da execução.',
     price: 100,
-    unit: 'visita',
+    priceDetail: 'visita',
     image: '/images/reparos.jpg',
     keywords: ['encanador', 'hidráulica', 'vazamento', 'torneira', 'cano'],
     reviews: [

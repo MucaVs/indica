@@ -8,6 +8,7 @@ import {
   formatRating,
 } from '../lib/services'
 import { Rating } from './Rating'
+import { ServiceImage } from './ServiceImage'
 
 export function ServiceDetails({
   service,
@@ -60,22 +61,24 @@ export function ServiceDetails({
         </button>
       </div>
       <div className="detail-cover">
-        <img src={service.image} alt="" />
+        <ServiceImage src={service.image} />
         <span className="image-category">{service.category}</span>
       </div>
       <div className="detail-body">
         <p className="eyebrow">CONHEÇA QUEM FAZ</p>
         <h2 id="detail-title">{service.title}</h2>
         <p className="professional">com {service.professional}</p>
-        <p className="location">
-          <MapPin size={14} /> {service.neighborhood}
-        </p>
+        {service.neighborhood && (
+          <p className="location">
+            <MapPin size={14} /> {service.neighborhood}
+          </p>
+        )}
         <Rating value={average} count={service.reviews.length} />
         <div className="detail-price">
-          <span>A partir de</span>
+          <span>{service.price === null ? 'Valor' : 'A partir de'}</span>
           <p>
             <strong>{formatPrice(service.price)}</strong>
-            <span> / {service.unit}</span>
+            {service.priceDetail && <span> {service.priceDetail}</span>}
           </p>
         </div>
         <h3>Sobre o serviço</h3>
@@ -114,7 +117,7 @@ export function ServiceDetails({
                 </div>
                 <Rating value={review.rating} />
               </div>
-              <p>{review.comment}</p>
+              {review.comment && <p>{review.comment}</p>}
             </article>
           ))}
         </section>

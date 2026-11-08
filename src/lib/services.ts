@@ -20,8 +20,9 @@ export function filterServices(
         service.title,
         service.category,
         service.professional,
-        service.neighborhood,
-        ...service.keywords,
+        service.description,
+        service.neighborhood ?? '',
+        ...(service.keywords ?? []),
       ].join(' '),
     )
     return (
@@ -38,10 +39,13 @@ export function averageRating(reviews: Review[]): number | null {
   )
 }
 
-export const formatPrice = (price: number): string =>
-  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-    price,
-  )
+export const formatPrice = (price: number | null): string =>
+  price === null
+    ? 'A combinar'
+    : new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(price)
 
 export const formatRating = (rating: number): string =>
   rating.toLocaleString('pt-BR', {
@@ -54,5 +58,5 @@ export const formatDate = (date: string): string =>
     day: 'numeric',
     month: 'long',
     year: 'numeric',
-    timeZone: 'UTC',
-  }).format(new Date(`${date}T12:00:00Z`))
+    timeZone: 'America/Sao_Paulo',
+  }).format(new Date(date.length === 10 ? `${date}T12:00:00Z` : date))

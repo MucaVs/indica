@@ -507,6 +507,7 @@
 }
 .card-bottom p {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 4px;
 }
@@ -517,8 +518,33 @@
   letter-spacing: -0.6px;
 }
 .card-bottom p > span {
+  overflow-wrap: anywhere;
   color: #8d958b;
   font-size: 10px;
+}
+.card-bottom > div {
+  flex: 1;
+  min-width: 0;
+}
+.service-image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  color: #6d8868;
+  background: linear-gradient(135deg, #e9efdf, #dce9db);
+  font-size: 11px;
+}
+.loading-spinner {
+  animation: catalog-spin 1s linear infinite;
+}
+@keyframes catalog-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 .details-label {
   display: flex;
@@ -700,6 +726,10 @@ body:has(dialog[open]) {
   color: #75896b;
 }
 .detail-price p {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 8px;
   margin-top: 2px;
 }
 .detail-price strong {
